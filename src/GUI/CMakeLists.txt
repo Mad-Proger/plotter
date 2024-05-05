@@ -7,14 +7,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 set(SOURCES
-    main.cpp
     Window.cpp
 )
 
-add_executable(plotter ${SOURCES})
-target_include_directories(plotter
+add_library(gui STATIC ${SOURCES})
+target_include_directories(gui
     PUBLIC ${HEADER_DIR}/GUI
 )
-target_link_libraries(plotter
-    PRIVATE sfml-window sfml-system sfml-graphics
+target_link_libraries(gui
+    PUBLIC sfml-window sfml-system sfml-graphics
 )
