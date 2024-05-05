@@ -1,4 +1,6 @@
-set(SOURCES)
+set(SOURCES
+    Expression.cpp
+)
 
 add_library(function ${SOURCES})
 target_include_directories(function
