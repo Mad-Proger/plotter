@@ -15,6 +15,7 @@ public:
     void setPlotRegion(Rect plotRegion);
     void setParts(size_t xParts, size_t yParts);
 
+    Point getNodeCoords(size_t i, size_t j) const;
     void getCellCorners(Point corners[2][2], size_t i, size_t j) const;
 
 private:

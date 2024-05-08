@@ -25,13 +25,17 @@ void PlotParameters::setParts(size_t xParts, size_t yParts) {
     evalSteps();
 }
 
+Point PlotParameters::getNodeCoords(size_t i, size_t j) const {
+    return {
+        m_plotRegion.x + m_xStep * static_cast<float>(i),
+        m_plotRegion.y + m_yStep * static_cast<float>(j)
+    };
+}
+
 void PlotParameters::getCellCorners(Point corners[2][2], size_t i, size_t j) const {
     for (size_t ii = 0; ii < 2; ++ii) {
         for (size_t jj = 0; jj < 2; ++jj) {
-            corners[ii][jj] = {
-                    m_plotRegion.x + m_xStep * static_cast<float>(i + ii),
-                    m_plotRegion.y + m_yStep * static_cast<float>(j + jj)
-            };
+            corners[ii][jj] = getNodeCoords(i + ii, j + jj);
         }
     }
 }
