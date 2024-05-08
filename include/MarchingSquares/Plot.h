@@ -26,7 +26,7 @@ void computeAngle(Point pts[2][2], float values[2][2], Func&& f, size_t i, size_
     std::invoke(std::forward<Func>(f), p1, p2);
 }
 
-template <std::invocable<Point, Point> Func>
+template <SegmentReturnCallback Func>
 void computePositiveAngle(Point pts[2][2], float values[2][2], Func&& f) {
     for (size_t i = 0; i < 2; ++i) {
         for (size_t j = 0; j < 2; ++j) {
@@ -38,7 +38,7 @@ void computePositiveAngle(Point pts[2][2], float values[2][2], Func&& f) {
     }
 }
 
-template <std::invocable<Point, Point> Func>
+template <SegmentReturnCallback Func>
 void computeNegativeAngle(Point pts[2][2], float values[2][2], Func&& f) {
     for (size_t i = 0; i < 2; ++i) {
         for (size_t j = 0; j < 2; ++j) {
@@ -50,21 +50,21 @@ void computeNegativeAngle(Point pts[2][2], float values[2][2], Func&& f) {
     }
 }
 
-template <std::invocable<Point, Point> Func>
+template <SegmentReturnCallback Func>
 void computeVertical(Point pts[2][2], float values[2][2], Func&& f) {
     Point p1{ findRoot(pts[0][0].x, pts[1][0].x, values[0][0], values[1][0]), pts[0][0].y };
     Point p2{ findRoot(pts[0][1].x, pts[1][1].x, values[0][1], values[1][1]), pts[0][1].y };
     std::invoke(std::forward<Func>(f), p1, p2);
 }
 
-template <std::invocable<Point, Point> Func>
+template <SegmentReturnCallback Func>
 void computeHorizontal(Point pts[2][2], float values[2][2], Func&& f) {
     Point p1{ pts[0][0].x, findRoot(pts[0][0].y, pts[0][1].y, values[0][0], values[0][1]) };
     Point p2{ pts[1][0].x, findRoot(pts[1][0].y, pts[1][1].y, values[1][0], values[1][1]) };
     std::invoke(std::forward<Func>(f), p1, p2);
 }
 
-template <std::invocable<Point, Point> Func>
+template <SegmentReturnCallback Func>
 void computeCell(Point pts[2][2], float values[2][2], Func&& f) {
     int cntPositive = 0;
     for (size_t i = 0; i < 2; ++i) {
@@ -89,9 +89,8 @@ void computeCell(Point pts[2][2], float values[2][2], Func&& f) {
     }
 }
 
-template <typename F, std::invocable<Point, Point> R>
-void computePlot(const PlotParameters& plotParam, F&& func, R&& callback) requires
-std::is_invocable_r_v<F, float, float, float> {
+template <ImplicitFunction F, SegmentReturnCallback R>
+void computePlot(const PlotParameters& plotParam, F&& func, R&& callback) {
     auto [xParts, yParts] = plotParam.getParts();
     std::vector<float> lastRow(xParts + 1);
     for (size_t i = 0; i <= xParts; ++i) {
