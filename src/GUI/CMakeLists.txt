@@ -3,6 +3,7 @@ FetchContent_Declare(
     SFML
     GIT_REPOSITORY https://github.com/SFML/SFML.git
     GIT_TAG        2.6.1
+    FIND_PACKAGE_ARGS COMPONENTS graphics window
 )
 FetchContent_MakeAvailable(SFML)
 
