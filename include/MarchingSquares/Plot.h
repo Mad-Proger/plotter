@@ -94,20 +94,24 @@ void computePlot(const PlotParameters& plotParam, F&& func, R&& callback) {
     auto [xParts, yParts] = plotParam.getParts();
     std::vector<float> lastRow(xParts + 1);
     for (size_t i = 0; i <= xParts; ++i) {
-        lastRow[i] = func(i, i == 0);
+        auto [x, y] = plotParam.getNodeCoords(i, i == 0);
+        lastRow[i] = std::invoke(func, x, y);
     }
-    float corner = func(0, 0);
+    auto [x0, y0] = plotParam.getNodeCoords(0, 0);
+    float corner = std::invoke(func, x0, y0);
 
     size_t i = 0, j = 0;
     while (j < yParts) {
         Point pts[2][2] = {};
         plotParam.getCellCorners(pts, i, j);
         float values[2][2] = {
-                { corner,     lastRow[i + 1] },
-                { lastRow[i], std::invoke(func, pts[1][1].x, pts[1][1].y) }
+                { corner,     lastRow[i] },
+                { lastRow[i + 1], std::invoke(func, pts[1][1].x, pts[1][1].y) }
         };
         computeCell(pts, values, callback);
 
+        corner = values[1][0];
+        lastRow[i + 1] = values[1][1];
         if (++i == xParts) {
             i = 0;
             ++j;

@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "Expression.h"
+#include "RenderPlot.h"
 
 #include <iostream>
 #include <string>
@@ -13,7 +14,13 @@ Expression getExpression() {
 }
 
 int main() {
-    Window window(1280, 720, nullptr);
+    PlotParameters plotParameters({ -8, -4.5, 16, 9 },
+                                  320, 180);
+    auto plot = std::unique_ptr<InteractiveDrawable>{
+            new RenderPlot(plotParameters, getExpression())
+    };
+
+    Window window(1280, 720, std::move(plot));
     window.eventLoop();
     return 0;
 }

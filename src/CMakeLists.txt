@@ -8,5 +8,5 @@ target_include_directories(plotter
     PRIVATE ${HEADER_DIR}/GUI
 )
 target_link_libraries(plotter
-    PRIVATE function gui
+    PRIVATE function gui marching-squares
 )
