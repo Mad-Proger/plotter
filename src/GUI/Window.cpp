@@ -2,7 +2,9 @@
 
 const sf::Time Window::FRAME_INTERVAL = sf::milliseconds(20);
 
-Window::Window(int width, int height): m_window(sf::VideoMode(width, height), "Plotter") {}
+Window::Window(int width, int height, std::unique_ptr<InteractiveDrawable> plot)
+        : m_window(sf::VideoMode(width, height), "Plotter")
+        , m_plot(std::move(plot)) {}
 
 void Window::eventLoop() {
     sf::Clock clock;
@@ -27,7 +29,12 @@ void Window::handleEvents() {
             m_window.close();
             break;
         }
+        if (m_plot != nullptr) m_plot->processEvent(event);
     }
 }
 
-void Window::render() {}
+void Window::render() {
+    m_window.clear();
+    if (m_plot != nullptr) m_window.draw(*m_plot);
+    m_window.display();
+}
