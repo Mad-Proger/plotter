@@ -7,7 +7,6 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(SFML)
 
 set(SOURCES
-    RenderPlot.cpp
     Window.cpp
 )
 
