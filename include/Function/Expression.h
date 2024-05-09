@@ -1,6 +1,7 @@
 #pragma once
 
 #include "expr.h"
+#include <cmath>
 #include <string>
 #include <stdexcept>
 

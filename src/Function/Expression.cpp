@@ -2,71 +2,71 @@
 
 namespace customFuncs {
     static float sinWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return sinf(expr_eval(&vec_nth(args, 0)));
+        return std::sin(expr_eval(&vec_nth(args, 0)));
     }
 
     static float cosWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return cosf(expr_eval(&vec_nth(args, 0)));
+        return std::cos(expr_eval(&vec_nth(args, 0)));
     }
 
     static float tanWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return tanf(expr_eval(&vec_nth(args, 0)));
+        return std::tan(expr_eval(&vec_nth(args, 0)));
     }
 
     static float asinWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return asinf(expr_eval(&vec_nth(args, 0)));
+        return std::asin(expr_eval(&vec_nth(args, 0)));
     }
 
     static float acosWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return acosf(expr_eval(&vec_nth(args, 0)));
+        return std::acos(expr_eval(&vec_nth(args, 0)));
     }
 
     static float atanWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return atanf(expr_eval(&vec_nth(args, 0)));
+        return std::atan(expr_eval(&vec_nth(args, 0)));
     }
 
     static float sinhWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return sinhf(expr_eval(&vec_nth(args, 0)));
+        return std::sinh(expr_eval(&vec_nth(args, 0)));
     }
 
     static float coshWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return coshf(expr_eval(&vec_nth(args, 0)));
+        return std::cosh(expr_eval(&vec_nth(args, 0)));
     }
 
     static float tanhWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return tanhf(expr_eval(&vec_nth(args, 0)));
+        return std::tanh(expr_eval(&vec_nth(args, 0)));
     }
 
     static float asinhWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return asinhf(expr_eval(&vec_nth(args, 0)));
+        return std::asinh(expr_eval(&vec_nth(args, 0)));
     }
 
     static float acoshWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return acoshf(expr_eval(&vec_nth(args, 0)));
+        return std::acosh(expr_eval(&vec_nth(args, 0)));
     }
 
     static float atanhWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return atanhf(expr_eval(&vec_nth(args, 0)));
+        return std::atanh(expr_eval(&vec_nth(args, 0)));
     }
 
     static float gammaWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return tgammaf(expr_eval(&vec_nth(args, 0)));
+        return std::tgamma(expr_eval(&vec_nth(args, 0)));
     }
 
     static float logWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return logf(expr_eval(&vec_nth(args, 0)));
+        return std::log(expr_eval(&vec_nth(args, 0)));
     }
 
     static float expWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return expf(expr_eval(&vec_nth(args, 0)));
+        return std::exp(expr_eval(&vec_nth(args, 0)));
     }
 
     static float absWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return fabsf(expr_eval(&vec_nth(args, 0)));
+        return std::abs(expr_eval(&vec_nth(args, 0)));
     }
 
     static float sqrtWrapper(struct expr_func*, vec_expr_t* args, void*) {
-        return sqrtf(expr_eval(&vec_nth(args, 0)));
+        return std::sqrt(expr_eval(&vec_nth(args, 0)));
     }
 
     static struct expr_func funcList[] = {
