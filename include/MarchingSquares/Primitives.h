@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <concepts>
 
 struct Point {
     float x;
@@ -15,7 +16,7 @@ struct Rect {
 };
 
 template <typename Func>
-concept ImplicitFunction = std::is_invocable_r_v<Func, float, float, float>;
+concept ImplicitFunction = std::is_invocable_r_v<float, Func, float, float>;
 
 template <typename Func>
 concept SegmentReturnCallback = std::invocable<Func, Point, Point>;
