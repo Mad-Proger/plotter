@@ -1,28 +1,17 @@
 #pragma once
 
+#include "Interfaces.h"
 #include "Plot.h"
 #include "PlotParameters.h"
 #include "Primitives.h"
-#include <SFML/Graphics.hpp>
-
-enum class ShiftDirection {
-    Left,
-    Right,
-    Up,
-    Down
-};
 
 template <ImplicitFunction Func>
-class RenderPlot: public sf::Drawable {
+class RenderPlot: public InteractiveDrawable {
 public:
     RenderPlot(PlotParameters plotParameters, Func&& plotFunc);
     ~RenderPlot() override = default;
 
-    void shift(ShiftDirection direction);
-    void zoomIn();
-    void zoomOut();
-    void increaseAccuracy();
-    void decreaseAccuracy();
+    void processEvent(sf::Event event) override;
 
 protected:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -33,6 +22,7 @@ private:
     Func m_func;
 
     void updateVertices();
+    void moveRegion(sf::Keyboard::Key keyCode);
     void zoom(float coefficient);
     void updateAccuracy(float coefficient);
 
@@ -46,6 +36,26 @@ inline RenderPlot<Func>::RenderPlot(PlotParameters plotParameters, Func&& plotFu
         : m_vertices(sf::PrimitiveType::Lines)
         , m_parameters(plotParameters), m_func(std::move(plotFunc)) {
     updateVertices();
+}
+
+template <ImplicitFunction Func>
+inline void RenderPlot<Func>::processEvent(sf::Event event) {
+    if (event.type != sf::Event::KeyPressed) return;
+    if (event.key.code == sf::Keyboard::Dash) {
+        if (event.key.shift) {
+            updateAccuracy(ZOOM_IN_COEFFICIENT);
+        } else {
+            zoom(ZOOM_OUT_COEFFICIENT);
+        }
+    }
+    if (event.key.code == sf::Keyboard::Equal) {
+        if (event.key.shift) {
+            updateAccuracy(ZOOM_OUT_COEFFICIENT);
+        } else {
+            zoom(ZOOM_IN_COEFFICIENT);
+        }
+    }
+    moveRegion(event.key.code);
 }
 
 template <ImplicitFunction Func>
@@ -73,44 +83,26 @@ void RenderPlot<Func>::updateVertices() {
 }
 
 template <ImplicitFunction Func>
-void RenderPlot<Func>::shift(ShiftDirection direction) {
+void RenderPlot<Func>::moveRegion(sf::Keyboard::Key keyCode) {
     Rect region = m_parameters.getPlotRegion();
-    switch (direction) {
-    case ShiftDirection::Left:
+    switch (keyCode) {
+    case sf::Keyboard::Left:
         region.x -= region.width * SHIFT_COEFFICIENT;
         break;
-    case ShiftDirection::Right:
+    case sf::Keyboard::Right:
         region.x += region.width * SHIFT_COEFFICIENT;
         break;
-    case ShiftDirection::Up:
+    case sf::Keyboard::Up:
         region.y += region.height * SHIFT_COEFFICIENT;
         break;
-    case ShiftDirection::Down:
+    case sf::Keyboard::Down:
         region.y -= region.height * SHIFT_COEFFICIENT;
+        break;
+    default:
         break;
     }
     m_parameters.setPlotRegion(region);
     updateVertices();
-}
-
-template <ImplicitFunction Func>
-void RenderPlot<Func>::zoomIn() {
-    zoom(ZOOM_IN_COEFFICIENT);
-}
-
-template <ImplicitFunction Func>
-void RenderPlot<Func>::zoomOut() {
-    zoom(ZOOM_OUT_COEFFICIENT);
-}
-
-template <ImplicitFunction Func>
-void RenderPlot<Func>::increaseAccuracy() {
-    updateAccuracy(ZOOM_OUT_COEFFICIENT);
-}
-
-template <ImplicitFunction Func>
-void RenderPlot<Func>::decreaseAccuracy() {
-    updateAccuracy(ZOOM_IN_COEFFICIENT);
 }
 
 template <ImplicitFunction Func>
