@@ -99,7 +99,7 @@ void RenderPlot<Func>::moveRegion(sf::Keyboard::Key keyCode) {
         region.y -= region.height * SHIFT_COEFFICIENT;
         break;
     default:
-        break;
+        return;
     }
     m_parameters.setPlotRegion(region);
     updateVertices();
