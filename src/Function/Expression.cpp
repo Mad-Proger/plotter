@@ -101,6 +101,19 @@ Expression::~Expression() {
     expr_destroy(m_expression, &m_variables);
 }
 
+Expression::Expression(Expression&& other) noexcept
+        : m_variables(other.m_variables), m_expression(other.m_expression) {
+    other.m_expression = nullptr;
+    other.m_variables.head = nullptr;
+}
+
+Expression& Expression::operator=(Expression&& other) noexcept {
+    Expression moved = std::move(other);
+    std::swap(m_variables, moved.m_variables);
+    std::swap(m_expression, moved.m_expression);
+    return *this;
+}
+
 float Expression::operator()(float x, float y) const {
     for (struct expr_var* var = m_variables.head; var != nullptr; var = var->next) {
         if (strcmp(var->name, "x") == 0) var->value = x;
