@@ -63,8 +63,8 @@ inline void RenderPlot<Func>::draw(sf::RenderTarget& target, sf::RenderStates st
     sf::View oldView = target.getView();
     Rect region = m_parameters.getPlotRegion();
     target.setView(sf::View({
-                                    region.x, region.y,
-                                    region.width, region.height
+                                    region.x, region.y + region.height,
+                                    region.width, -region.height
                             }));
     target.draw(m_vertices, states);
     target.setView(oldView);
